@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "视频号运营助手",
+  "version": "1.0",
+  "icons": {
+    "16": "images/icon.jpeg",
+    "48": "images/icon.jpeg",
+    "128": "images/icon.jpeg"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_icon": {
+      "48": "images/icon.jpeg"
+    },
+    "default_title": "视频号运营助手"
+  },
+  "permissions": ["scripting", "activeTab", "contextMenus"]
+}

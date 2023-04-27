@@ -27,8 +27,8 @@ chrome.action.onClicked.addListener(async (tab) => {
       files: ["content-script.js"],
     });
 
-    //
-    chrome.contextMenus.create({
+    //当插件为ON，创建鼠标右键菜单选项
+    await chrome.contextMenus.create({
       title: "视频号运营助手(搜feed/uin/昵称)",
       id: "search",
       type: "normal",
@@ -36,14 +36,18 @@ chrome.action.onClicked.addListener(async (tab) => {
     });
 
     // 点击弹出菜单
-    chrome.contextMenus.onClicked.addListener(function (item, tab) {
-      console.log(1);
-      chrome.tabs.sendMessage(tab.id, item, function () {
-        console.log(arguments, chrome.runtime.lastError);
-      });
+    chrome.contextMenus.onClicked.addListener(async (item, tab) => {
+      //与content-script.js进行通信
+      await chrome.tabs.sendMessage(
+        tab.id,
+        { state: nestState, selectionText: item.selectionText },
+        () => {
+          // console.log(item, tab);
+        }
+      );
     });
+  } else {
+    //当插件为OFF，移除鼠标右键menus
+    await chrome.contextMenus.remove("search");
   }
-
-  //与content-script.js进行通信
-  await chrome.tabs.sendMessage(tab.id, { state: nestState });
 });
